@@ -1,0 +1,27 @@
+server:
+  port: 9090
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: BilgeAdmin
+    password: Aa123456
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+    url: jdbc:postgresql://localhost:5432/TrivagoAuthDB
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+my-application:
+  user-profile-end-point: http://localhost:9092/user-profile
+  secret-key: "bAjAfl&ato9ruwrichlyUc1Lfaprafr8soNoCr!BramaTR7mojicr1wRI0*oC3is"
+  secret-key-2: ${SECRETKEY}
+
+buraya-canimin-istedigini-yazarim:
+  okuyabilirim: "bu nedir ya hu ?"

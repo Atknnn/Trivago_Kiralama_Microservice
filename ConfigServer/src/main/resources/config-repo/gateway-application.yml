@@ -1,0 +1,45 @@
+server:
+  port: 80
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway-server
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+# Eğer bir routing işleminde yönlendirme giden yolu tarif etmiyor ise yakaladığı şekilde iletir.
+# yani: http://localhost/auth/getmessage -> http://localhost:9090/auth/getmessage
+      routes:
+        - id: auth-service
+          uri: http://localhost:9090
+#         http://gateway.com/auth/getmessage
+          predicates: # ilgili gateway a gelen isteğin kökünden sonra gelen adres irdelenir.
+            - Path=/auth/**  # eğer adres /auth ile başlayıp devam ediyor ise bu yönlendirme tarafından yakalanır.
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+            - name: CircuitBreaker
+              args:
+                fallbackUri: forward:/fallback/auth
+        - id: user-service
+          uri: http://localhost:9092
+          predicates:
+            - Path=/user/**
+          filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+            - name: CircuitBreaker
+              args:
+                fallbackUri: forward:/fallback/user
+      default-filters:
+        - RewritePath= /(?<segment>.*), /api/v1/$\{segment}

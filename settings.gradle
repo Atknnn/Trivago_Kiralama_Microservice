@@ -1,0 +1,10 @@
+rootProject.name = 'Trivago_Kiralama'
+include 'AuthMicroService'
+include 'UserMicroService'
+include 'ProductMicroService'
+include 'ConfigServer'
+include 'ConfigServerGit'
+include 'GatewayServer'
+include 'ElasticService'
+include 'TestModul'
+

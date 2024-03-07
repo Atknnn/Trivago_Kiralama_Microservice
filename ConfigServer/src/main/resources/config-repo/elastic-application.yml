@@ -1,0 +1,18 @@
+server:
+  port: 9100
+
+spring:
+  security:
+    user:
+      name: muhammet
+      password: 123456
+  graphql:
+   graphiql:
+     enabled: true
+  elasticsearch:
+    uris: http://localhost:9200
+    username: admin
+    password: root
+
+my-application:
+  time: 12-12-2023
